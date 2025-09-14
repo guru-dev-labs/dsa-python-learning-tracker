@@ -226,58 +226,69 @@ export default function ChapterPage({ params }: ChapterPageProps) {
                         const summary = getSectionSummary(section.slug);
 
                         return (
-                            <Card key={section.id} className="hover:shadow-lg transition-all duration-200 group h-full flex flex-col">
-                                <CardHeader className="pb-3">
-                                    <div className="flex items-start justify-between gap-3 mb-3">
-                                        <div className={`flex items-center justify-center w-10 h-10 rounded-lg font-semibold text-sm ${isCompleted
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-                                            : 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                            <Card key={section.id} className="group hover:shadow-lg transition-all duration-200">
+                                <CardHeader>
+                                    <div className="flex items-center justify-between mb-4">
+                                        {/* Section Number/Completion Icon */}
+                                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${isCompleted
+                                            ? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300'
+                                            : 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300'
                                             }`}>
                                             {isCompleted ? (
-                                                <CheckCircleIcon className="w-5 h-5" />
+                                                <CheckCircleIcon className="w-4 h-4" />
                                             ) : (
-                                                index + 1
+                                                <span className="text-sm font-medium">{index + 1}</span>
                                             )}
                                         </div>
-                                        <div className="flex items-center space-x-2 shrink-0">
-                                            {isCompleted ? (
-                                                <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                                    Complete
-                                                </Badge>
-                                            ) : (
-                                                <Badge variant="outline">
-                                                    Pending
-                                                </Badge>
-                                            )}
-                                        </div>
+
+                                        {/* Status Badge */}
+                                        <Badge
+                                            variant={isCompleted ? "default" : "secondary"}
+                                            className={`${isCompleted
+                                                ? "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300"
+                                                : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
+                                                }`}
+                                        >
+                                            {isCompleted ? "Complete" : "Pending"}
+                                        </Badge>
                                     </div>
-                                    <CardTitle className="text-xl group-hover:text-blue-600 transition-colors line-clamp-2">
-                                        <Link href={`/courses/${courseSlug}/${chapterSlug}/${section.slug}`}>
+
+                                    {/* Title with Link */}
+                                    <Link
+                                        href={`/courses/${courseSlug}/${chapterSlug}/${section.slug}`}
+                                        className="block group-hover:text-blue-600 transition-colors"
+                                    >
+                                        <CardTitle className="text-lg mb-2 line-clamp-2">
                                             {section.title}
-                                        </Link>
-                                    </CardTitle>
-                                    <CardDescription className="text-sm line-clamp-3">
+                                        </CardTitle>
+                                    </Link>
+
+                                    {/* Description */}
+                                    <CardDescription className="text-sm line-clamp-2 mb-4">
                                         {summary}
                                     </CardDescription>
-                                </CardHeader>
 
-                                <CardContent className="flex-1 flex flex-col justify-end">
-                                    <Button asChild className="w-full group-hover:bg-blue-600 transition-colors">
-                                        <Link href={`/courses/${courseSlug}/${chapterSlug}/${section.slug}`}>
-                                            {isCompleted ? (
-                                                <>
-                                                    Review Section
-                                                    <BookOpenIcon className="ml-2 h-4 w-4" />
-                                                </>
-                                            ) : (
-                                                <>
-                                                    Start Section
-                                                    <PlayIcon className="ml-2 h-4 w-4" />
-                                                </>
-                                            )}
-                                        </Link>
-                                    </Button>
-                                </CardContent>
+                                    {/* Action Button */}
+                                    <div className="absolute bottom-4 right-4">
+                                        <Button
+                                            size="icon"
+                                            variant={isCompleted ? "outline" : "default"}
+                                            asChild
+                                            className={`rounded-full w-10 h-10 ${isCompleted
+                                                ? 'hover:bg-green-100 hover:text-green-700 dark:hover:bg-green-900/50'
+                                                : 'hover:bg-blue-600'
+                                                }`}
+                                        >
+                                            <Link href={`/courses/${courseSlug}/${chapterSlug}/${section.slug}`}>
+                                                {isCompleted ? (
+                                                    <BookOpenIcon className="h-5 w-5" />
+                                                ) : (
+                                                    <PlayIcon className="h-5 w-5" />
+                                                )}
+                                            </Link>
+                                        </Button>
+                                    </div>
+                                </CardHeader>
                             </Card>
                         );
                     })}
